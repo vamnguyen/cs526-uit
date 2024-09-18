@@ -36,10 +36,10 @@ declare interface MapProps {
 declare interface Ride {
   origin_address: string;
   destination_address: string;
-  origin_latitude: number;
-  origin_longitude: number;
-  destination_latitude: number;
-  destination_longitude: number;
+  origin_latitude: string;
+  origin_longitude: string;
+  destination_latitude: string;
+  destination_longitude: string;
   ride_time: number;
   fare_price: number;
   payment_status: string;
