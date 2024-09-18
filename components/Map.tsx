@@ -4,6 +4,8 @@ import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 
 import { icons } from "@/constants";
+import { Driver, MarkerData } from "@/types/type";
+
 import { useFetch } from "@/lib/fetch";
 import {
   calculateDriverTimes,
@@ -11,7 +13,6 @@ import {
   generateMarkersFromData,
 } from "@/lib/map";
 import { useDriverStore, useLocationStore } from "@/store";
-import { Driver, MarkerData } from "@/types/type";
 
 const directionsAPI = process.env.EXPO_PUBLIC_DIRECTIONS_API_KEY;
 
