@@ -7,10 +7,9 @@ import { ReactNativeModal } from "react-native-modal";
 
 import CustomButton from "@/components/CustomButton";
 import { images } from "@/constants";
-import { PaymentProps } from "@/types/type";
-
 import { fetchAPI } from "@/lib/fetch";
 import { useLocationStore } from "@/store";
+import { PaymentProps } from "@/types/type";
 
 const Payment = ({
   fullName,

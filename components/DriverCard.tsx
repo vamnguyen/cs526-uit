@@ -2,9 +2,8 @@ import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { icons } from "@/constants";
-import { DriverCardProps } from "@/types/type";
-
 import { formatTime } from "@/lib/utils";
+import { DriverCardProps } from "@/types/type";
 
 const DriverCard = ({ item, selected, setSelected }: DriverCardProps) => {
   return (

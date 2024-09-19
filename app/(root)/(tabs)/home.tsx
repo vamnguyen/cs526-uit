@@ -1,5 +1,7 @@
 import { useAuth, useUser } from "@clerk/clerk-expo";
+import * as Location from "expo-location";
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -11,8 +13,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import GoogleTextInput from "@/components/GoogleTextInput";
+import Map from "@/components/Map";
 import RideCard from "@/components/RideCard";
 import { icons, images } from "@/constants";
+import { useLocationStore } from "@/store";
 
 const recentRides = [
   {
@@ -124,20 +128,48 @@ const recentRides = [
 export default function HomeScreen() {
   const { user } = useUser();
   const { signOut } = useAuth();
-
-  const loading: boolean = false;
+  const { setUserLocation, setDestinationLocation } = useLocationStore();
 
   const handleSignOut = () => {
     signOut();
     router.replace("/(auth)/sign-in");
   };
 
+  const [, setHasPermission] = useState<boolean>(false);
+
+  // TODO: fetch recent rides from the server
+  const loading: boolean = false;
+
+  useEffect(() => {
+    (async () => {
+      let status = await Location.requestForegroundPermissionsAsync();
+      if (status.status !== "granted") {
+        // Permission to access location was denied
+        setHasPermission(false);
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+
+      const address = await Location.reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+
+      setUserLocation({
+        latitude: location.coords?.latitude,
+        longitude: location.coords?.longitude,
+        address: `${address[0].name}, ${address[0].region}`,
+      });
+    })();
+  }, [setUserLocation]);
+
   const handleDestinationPress = (location: {
     latitude: number;
     longitude: number;
     address: string;
   }) => {
-    //  setDestinationLocation(location);
+    setDestinationLocation(location);
 
     router.push("/(root)/find-ride");
   };
@@ -174,11 +206,7 @@ export default function HomeScreen() {
           <>
             <View className="flex flex-row items-center justify-between my-5">
               <Text className="text-2xl font-JakartaExtraBold">
-                Welcome{" "}
-                {user?.firstName ??
-                  user?.lastName ??
-                  user?.emailAddresses[0].emailAddress.split("@")[0]}
-                👋
+                Welcome {user?.firstName ?? user?.lastName} 👋
               </Text>
               <TouchableOpacity
                 onPress={handleSignOut}
@@ -199,7 +227,7 @@ export default function HomeScreen() {
                 Your current location
               </Text>
               <View className="flex flex-row items-center bg-transparent h-[300px]">
-                {/* <Map /> */}
+                <Map />
               </View>
             </>
 
