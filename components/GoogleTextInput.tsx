@@ -64,7 +64,7 @@ const GoogleTextInput = ({
         }}
         query={{
           key: googlePlacesApiKey,
-          language: "en",
+          language: "vi",
         }}
         renderLeftButton={() => (
           <View className="justify-center items-center w-6 h-6">

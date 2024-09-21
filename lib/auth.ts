@@ -1,3 +1,7 @@
+import {
+  StartOAuthFlowParams,
+  StartOAuthFlowReturnType,
+} from "@clerk/clerk-expo";
 import * as Linking from "expo-linking";
 import * as SecureStore from "expo-secure-store";
 
@@ -29,23 +33,39 @@ export const tokenCache = {
   },
 };
 
-export const googleOAuth = async (startOAuthFlow: any) => {
+export const googleOAuth = async (
+  startOAuthFlow: (
+    startOAuthFlowParams?: StartOAuthFlowParams,
+  ) => Promise<StartOAuthFlowReturnType>,
+) => {
   try {
-    const { createdSessionId, setActive, signUp } = await startOAuthFlow({
-      redirectUrl: Linking.createURL("/(root)/(tabs)/home"),
-    });
+    const { createdSessionId, setActive, signUp, signIn } =
+      await startOAuthFlow({
+        redirectUrl: Linking.createURL("/(root)/(tabs)/home"),
+      });
 
     if (createdSessionId) {
       if (setActive) {
         await setActive({ session: createdSessionId });
 
-        if (signUp.createdUserId) {
+        if (signUp?.createdUserId) {
           await fetchAPI("/(api)/user", {
             method: "POST",
             body: JSON.stringify({
-              name: `${signUp.firstName} ${signUp.lastName}`,
+              firstName: signUp.firstName,
+              lastName: signUp.lastName,
               email: signUp.emailAddress,
               clerkId: signUp.createdUserId,
+            }),
+          });
+        } else if (signIn?.createdSessionId) {
+          await fetchAPI("/(api)/user", {
+            method: "POST",
+            body: JSON.stringify({
+              firstName: signIn.userData.firstName,
+              lastName: signIn.userData.lastName,
+              email: signUp?.emailAddress,
+              clerkId: signUp?.createdUserId,
             }),
           });
         }

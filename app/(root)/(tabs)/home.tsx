@@ -75,7 +75,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView>
       <FlatList
-        data={recentRides?.slice(0, 5)}
+        data={recentRides?.slice(0, 4)}
         renderItem={({ item }) => <RideCard ride={item} />}
         keyExtractor={(item, index) => index.toString()}
         className="px-5"

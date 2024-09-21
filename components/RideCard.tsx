@@ -66,7 +66,7 @@ const RideCard = ({ ride }: { ride: Ride }) => {
               Payment Status
             </Text>
             <Text
-              className={`text-md capitalize font-JakartaBold ${ride.payment_status === "paid" ? "text-green-500" : "text-red-500"}`}
+              className={`text-md capitalize font-JakartaBold ${ride.payment_status === "Paid" ? "text-green-500" : "text-red-500"}`}
             >
               {ride.payment_status}
             </Text>
