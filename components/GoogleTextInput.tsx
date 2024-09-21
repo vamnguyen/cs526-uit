@@ -4,7 +4,8 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { icons } from "@/constants";
 import { GoogleInputProps } from "@/types/type";
 
-const googlePlacesApiKey = process.env.EXPO_PUBLIC_PLACES_API_KEY;
+const googlePlacesApiKey = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
+console.log("googlePlacesApiKey:", googlePlacesApiKey);
 
 const GoogleTextInput = ({
   icon,
@@ -53,6 +54,8 @@ const GoogleTextInput = ({
           },
         }}
         onPress={(data, details = null) => {
+          console.log("data:", data);
+          console.log("details:", details);
           handlePress({
             latitude: details?.geometry.location.lat!,
             longitude: details?.geometry.location.lng!,
@@ -75,6 +78,7 @@ const GoogleTextInput = ({
         textInputProps={{
           placeholderTextColor: "gray",
           placeholder: initialLocation ?? "Where do you want to go?",
+          onChangeText: (text) => console.log(text),
         }}
       />
     </View>
