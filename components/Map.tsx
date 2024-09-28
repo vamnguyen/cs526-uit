@@ -14,7 +14,6 @@ import { useDriverStore, useLocationStore } from "@/store";
 import { Driver, MarkerData } from "@/types/type";
 
 const directionsAPI = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
-console.log("directionsAPI:", directionsAPI);
 
 const Map = () => {
   const {
