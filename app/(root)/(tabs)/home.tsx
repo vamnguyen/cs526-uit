@@ -12,9 +12,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import GoogleTextInput from "@/components/GoogleTextInput";
-import Map from "@/components/Map";
+import MapDirection from "@/components/MapDirection";
 import RideCard from "@/components/RideCard";
+import SearchInput from "@/components/SearchInput";
 import { icons, images } from "@/constants";
 import { useFetch } from "@/lib/fetch";
 import { useLocationStore } from "@/store";
@@ -57,7 +57,7 @@ export default function HomeScreen() {
       setUserLocation({
         latitude: location.coords?.latitude,
         longitude: location.coords?.longitude,
-        address: `${address[0].name}, ${address[0].region}`,
+        address: `${address[0].formattedAddress}`,
       });
     })();
   }, [setUserLocation]);
@@ -114,10 +114,11 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
 
-            <GoogleTextInput
+            <SearchInput
               icon={icons.search}
               containerStyle="bg-white shadow-md shadow-neutral-300"
               handlePress={handleDestinationPress}
+              isHome={true}
             />
 
             <>
@@ -125,7 +126,7 @@ export default function HomeScreen() {
                 Your current location
               </Text>
               <View className="flex flex-row items-center bg-transparent h-[300px]">
-                <Map />
+                <MapDirection />
               </View>
             </>
 

@@ -78,6 +78,23 @@ declare interface GoogleInputProps {
   }) => void;
 }
 
+declare interface SearchInputProps {
+  icon?: string;
+  initialLocation?: string;
+  containerStyle?: string;
+  textInputBackgroundColor?: string;
+  handlePress: ({
+    latitude,
+    longitude,
+    address,
+  }: {
+    latitude: number;
+    longitude: number;
+    address: string;
+  }) => void;
+  isHome?: boolean;
+}
+
 declare interface InputFieldProps extends TextInputProps {
   label: string;
   icon?: any;
@@ -136,4 +153,9 @@ declare interface DriverCardProps {
   item: MarkerData;
   selected: number;
   setSelected: () => void;
+}
+
+declare interface Coordinate {
+  latitude: number;
+  longitude: number;
 }

@@ -1,6 +1,7 @@
 import { Driver, MarkerData } from "@/types/type";
 
 const directionsAPI = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
+const geoapifyApiKey = process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY;
 
 export const generateMarkersFromData = ({
   data,
@@ -117,5 +118,60 @@ export const calculateDriverTimes = async ({
     return await Promise.all(timesPromises);
   } catch (error) {
     console.error("Error calculating driver times:", error);
+  }
+};
+
+export const calculateDriverTimesGeoApi = async ({
+  markers,
+  userLatitude,
+  userLongitude,
+  destinationLatitude,
+  destinationLongitude,
+}: {
+  markers: MarkerData[];
+  userLatitude: number | null;
+  userLongitude: number | null;
+  destinationLatitude: number | null;
+  destinationLongitude: number | null;
+}) => {
+  if (
+    !userLatitude ||
+    !userLongitude ||
+    !destinationLatitude ||
+    !destinationLongitude
+  )
+    return;
+
+  try {
+    const timesPromises = markers.map(async (marker) => {
+      // Fetch time and distance between marker and user
+      const responseToUser = await fetch(
+        `https://api.geoapify.com/v1/routing?waypoints=${marker.latitude},${marker.longitude}|${userLatitude},${userLongitude}&mode=drive&apiKey=${geoapifyApiKey}`,
+      );
+      const dataToUser = await responseToUser.json();
+
+      // Calculate time from marker to user in minutes
+      const timeToUser = dataToUser.features[0].properties.time / 60; // Time in minutes
+
+      // Fetch time and distance between user and destination
+      const responseToDestination = await fetch(
+        `https://api.geoapify.com/v1/routing?waypoints=${userLatitude},${userLongitude}|${destinationLatitude},${destinationLongitude}&mode=drive&apiKey=${geoapifyApiKey}`,
+      );
+      const dataToDestination = await responseToDestination.json();
+
+      // Calculate time from user to destination in minutes
+      const timeToDestination =
+        dataToDestination.features[0].properties.time / 60; // Time in minutes
+
+      // Calculate total time and price
+      const totalTime = timeToUser + timeToDestination;
+      const price = (totalTime * 0.5).toFixed(2); // Calculate price based on time
+
+      return { ...marker, time: totalTime, price };
+    });
+
+    return await Promise.all(timesPromises);
+  } catch (error) {
+    console.error("Error calculating driver times GeoApi:", error);
   }
 };

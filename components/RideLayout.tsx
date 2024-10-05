@@ -7,7 +7,7 @@ import React, { useRef } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import Map from "@/components/Map";
+import MapDirection from "@/components/MapDirection";
 import { icons } from "@/constants";
 
 const RideLayout = ({
@@ -40,7 +40,7 @@ const RideLayout = ({
             </Text>
           </View>
 
-          <Map />
+          <MapDirection />
         </View>
 
         <BottomSheet

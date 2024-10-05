@@ -4,6 +4,7 @@ import backArrow from "@/assets/icons/back-arrow.png";
 import chat from "@/assets/icons/chat.png";
 import checkmark from "@/assets/icons/check.png";
 import close from "@/assets/icons/close.png";
+import destination from "@/assets/icons/destination.png";
 import dollar from "@/assets/icons/dollar.png";
 import email from "@/assets/icons/email.png";
 import eyecross from "@/assets/icons/eyecross.png";
@@ -60,6 +61,7 @@ export const icons = {
   list,
   lock,
   map,
+  destination,
   marker,
   out,
   person,
