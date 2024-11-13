@@ -103,8 +103,8 @@ Make sure you have the following installed on your machine:
 **Cloning the Repository**
 
 ```bash
-git clone https://github.com/vamnguyen/cs526-uit.git
-cd cs526-uit
+git clone https://github.com/vamnguyen/uber-clone.git
+cd uber-clone
 ```
 
 **Installation**
