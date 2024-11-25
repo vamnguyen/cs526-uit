@@ -20,7 +20,7 @@ import { useFetch } from "@/lib/fetch";
 import { useLocationStore } from "@/store";
 import { Ride } from "@/types/type";
 
-export default function HomeScreen() {
+const Home = () => {
   const { user } = useUser();
   const { signOut } = useAuth();
   const { setUserLocation, setDestinationLocation } = useLocationStore();
@@ -138,4 +138,6 @@ export default function HomeScreen() {
       />
     </SafeAreaView>
   );
-}
+};
+
+export default Home;
